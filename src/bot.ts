@@ -362,7 +362,8 @@ export class Bot {
                   side: OrderSide.SELL,
                   type: OrderType.LIMIT,
                   symbol: pair,
-                  price,
+                  timeInForce: 'GTC',
+                  price: price + '',
                   quantity: String(
                     decimalFloor(
                       quantity * quantityPercentage,
@@ -391,8 +392,8 @@ export class Bot {
                   side: OrderSide.SELL,
                   type: OrderType.STOP,
                   symbol: pair,
-                  stopPrice: stopLoss,
-                  price: stopLoss,
+                  stopPrice: stopLoss + '',
+                  price: stopLoss + '',
                   quantity: String(quantity),
                 })
                 .catch(error);
@@ -481,7 +482,8 @@ export class Bot {
                   side: OrderSide.BUY,
                   type: OrderType.LIMIT,
                   symbol: pair,
-                  price: price,
+                  price: price + '',
+                  timeInForce: 'GTC',
                   quantity: String(
                     decimalFloor(
                       quantity * quantityPercentage,
@@ -510,8 +512,8 @@ export class Bot {
                   side: OrderSide.BUY,
                   type: OrderType.STOP,
                   symbol: pair,
-                  stopPrice: stopLoss,
-                  price: stopLoss,
+                  stopPrice: stopLoss + '',
+                  price: stopLoss + '',
                   quantity: String(quantity),
                 })
                 .catch(error);

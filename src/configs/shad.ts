@@ -12,34 +12,7 @@ import { getPositionSizeByPercent } from '../strategies/riskManagement';
 // ====================================================================== //
 
 const assets = [
-  'ETH',
-  'BNB',
-  'SOL',
-  'AVAX',
-  'ONE',
-  'FTM',
-  'ATOM',
-  'NEAR',
-  'GALA',
-  'SAND',
-  'GRT',
-  'CHZ',
-  'ENJ',
-  'XRP',
-  'ADA',
-  'LINK',
-  'MANA',
-  'DOT',
-  'MATIC',
-  'CRV',
-  'ALGO',
-  'DOGE',
-  'CAKE',
-  'ROSE',
-  'XTZ',
-  'EGLD',
-  'VET',
-  'LUNA',
+  'BTC'
 ];
 
 export const hyperParameters = {};
@@ -49,8 +22,8 @@ export const config: AbstractStrategyConfig = (parameters) =>
     asset,
     base: 'USDT',
     risk: 0.01,
-    loopInterval: CandleChartInterval.ONE_HOUR,
-    indicatorIntervals: [CandleChartInterval.ONE_WEEK],
+    loopInterval: CandleChartInterval.FIFTEEN_MINUTES,
+    indicatorIntervals: [CandleChartInterval.ONE_HOUR],
     trendFilter: (candles) => 1, // Take only long position, supposing we are in up trend on long term
     riskManagement: getPositionSizeByPercent,
     exitStrategy: (price, candles, pricePrecision, side, exchangeInfo) =>
@@ -79,7 +52,7 @@ export const config: AbstractStrategyConfig = (parameters) =>
         ],
       }),
     buyStrategy: (candles) =>
-      Basics.RELOAD_ZONE.isBuySignal(candles[CandleChartInterval.ONE_WEEK], {
+      Basics.RELOAD_ZONE.isBuySignal(candles[CandleChartInterval.ONE_HOUR], {
         trend: Fibonacci.FibonacciTrend.UP,
       }),
     sellStrategy: (candles: CandleData[]) => false,

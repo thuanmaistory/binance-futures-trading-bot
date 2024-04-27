@@ -7,32 +7,7 @@ import { getPositionSizeByPercent } from '../strategies/riskManagement';
 const assets = [
   'ETH',
   'BNB',
-  'SOL',
-  'AVAX',
-  'ONE',
-  'FTM',
-  'ATOM',
-  'NEAR',
-  'GALA',
-  'SAND',
-  'GRT',
-  'CHZ',
-  'ENJ',
-  'XRP',
-  'ADA',
-  'LINK',
-  'MANA',
-  'DOT',
-  'MATIC',
-  'CRV',
-  'ALGO',
-  'DOGE',
-  'CAKE',
-  'ROSE',
-  'XTZ',
-  'EGLD',
-  'VET',
-  'LUNA',
+  'SOL'
 ];
 
 export const hyperParameters: HyperParameters = {};

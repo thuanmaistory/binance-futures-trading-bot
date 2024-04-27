@@ -51,6 +51,7 @@ export const loadStrategyConfig = (strategyConfigName: string) => {
     CandleChartInterval.SIX_HOURS,
     CandleChartInterval.TWELVE_HOURS,
     CandleChartInterval.ONE_DAY,
+    CandleChartInterval.ONE_WEEK
   ];
 
   const loopTimeFramesFromConfig = StrategyConfig.map(
@@ -63,7 +64,7 @@ export const loadStrategyConfig = (strategyConfigName: string) => {
         .map((interval) => {
           if (!prev.some((i) => i === interval)) return interval;
         })
-        .filter((interval) => interval !== null || interval !== undefined)
+        .filter((interval) => interval !== null && interval !== undefined)
     );
   }, []);
 
