@@ -7,13 +7,13 @@ export const hyperParameters = {
   takeProfitRatio: { value: 3 },
   lookBack: { value: 14 },
   rsiPeriod: { value: 14 },
-  rsiOversold: { value: 30 },
+  rsiOversold: { value: 20 },
   rsiOverbought: { value: 70 },
 };
 
 export const config: AbstractStrategyConfig = (parameters) => [
   {
-    asset: 'BTC',
+    asset: 'ETH',
     base: 'USDT',
     loopInterval: CandleChartInterval.ONE_HOUR,
     indicatorIntervals: [CandleChartInterval.ONE_HOUR],

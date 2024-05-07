@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import chalk from 'chalk';
 import { OrderSide } from 'binance-api-node';
 import { logger } from '../init';
+import { sendTelegramMessage } from '../telegram';
 
 /**
  * Main function add a log
@@ -12,6 +13,8 @@ export function log(message: string, date = Date.now()) {
   const logDate = dayjs(date).format('YYYY-MM-DD HH:mm:ss');
   logger.info(`${logDate} : ${message}`);
   console.log(`${chalk.blue(logDate)} : ${message}`);
+
+  sendTelegramMessage(`### ${date} : ${message}`);
 }
 
 /**
@@ -23,6 +26,8 @@ export function error(message: string, date = Date.now()) {
   const logDate = dayjs(date).format('YYYY-MM-DD HH:mm:ss');
   logger.warn(`${logDate} : ${message}`);
   console.log(`${chalk.blue(logDate)} : ${message}`);
+
+  sendTelegramMessage(`##ERROR: ${logDate} - ${message}`);
 }
 
 /**

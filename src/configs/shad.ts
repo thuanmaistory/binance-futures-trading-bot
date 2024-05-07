@@ -22,8 +22,8 @@ export const config: AbstractStrategyConfig = (parameters) =>
     asset,
     base: 'USDT',
     risk: 0.01,
-    loopInterval: CandleChartInterval.FIFTEEN_MINUTES,
-    indicatorIntervals: [CandleChartInterval.ONE_HOUR],
+    loopInterval: CandleChartInterval.FIVE_MINUTES,
+    indicatorIntervals: [CandleChartInterval.FIVE_MINUTES],
     trendFilter: (candles) => 1, // Take only long position, supposing we are in up trend on long term
     riskManagement: getPositionSizeByPercent,
     exitStrategy: (price, candles, pricePrecision, side, exchangeInfo) =>
@@ -52,7 +52,7 @@ export const config: AbstractStrategyConfig = (parameters) =>
         ],
       }),
     buyStrategy: (candles) =>
-      Basics.RELOAD_ZONE.isBuySignal(candles[CandleChartInterval.ONE_HOUR], {
+      Basics.RELOAD_ZONE.isBuySignal(candles[CandleChartInterval.FIVE_MINUTES], {
         trend: Fibonacci.FibonacciTrend.UP,
       }),
     sellStrategy: (candles: CandleData[]) => false,

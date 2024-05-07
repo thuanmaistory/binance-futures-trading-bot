@@ -20,7 +20,7 @@ export const config: AbstractStrategyConfig = (parameters) => [
   {
     asset: 'BTC',
     base: 'USDT',
-    loopInterval: CandleChartInterval.FIFTEEN_MINUTES,
+    loopInterval: CandleChartInterval.ONE_HOUR,
     indicatorIntervals: [CandleChartInterval.FIFTEEN_MINUTES],
     risk: 0.1,
     leverage: 10,

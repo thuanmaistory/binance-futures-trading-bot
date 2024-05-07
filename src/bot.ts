@@ -201,6 +201,8 @@ export class Bot {
       (balance) => balance.asset === base
     );
 
+    log(`##Bot trade - Loop ${loopInterval} - Your availableBalance: ${availableBalance}, assetBalance: ${assetBalance}`);
+
     // Position information
     const positions = this.accountInfo.positions;
     const position = positions.find((position) => position.symbol === pair);
@@ -217,6 +219,8 @@ export class Bot {
     // Check the trend
     const useLongPosition = trendFilter ? trendFilter(candles) === 1 : true;
     const useShortPosition = trendFilter ? trendFilter(candles) === -1 : true;
+
+    log(`##Bot trade - The current trend is: #Long:${useLongPosition} | #Short:${useShortPosition}`);
 
     // Conditions to take or not a position
     const canAddToPosition = allowPyramiding
@@ -246,6 +250,8 @@ export class Bot {
         currentOpenOrders.length > 0 &&
         canOpenNewPositionToCloseLast);
 
+
+        log(`##Bot trade - CanTakeLongPosition: ${canTakeLongPosition}`);
     // Precision
     const pricePrecision = getPricePrecision(pair, this.exchangeInfo);
     const quantityPrecision = getQuantityPrecision(pair, this.exchangeInfo);
@@ -272,9 +278,7 @@ export class Bot {
             side: hasLongPosition ? OrderSide.SELL : OrderSide.BUY,
           })
           .then(() => {
-            log(
-              `The position on ${pair} is longer that the maximum authorized duration.`
-            );
+            log(`The position on ${pair} is longer that the maximum authorized duration => #OUT! Type: ${OrderType.MARKET} | Size: ${String(positionSize)} | Side: ${hasLongPosition ? OrderSide.SELL : OrderSide.BUY}!`);
           })
           .catch(error);
         return;
@@ -305,15 +309,24 @@ export class Bot {
             symbol: pair,
             quantity: String(positionSize),
           })
+          .then(() => {
+            log(`The position on ${pair} is TakeProfit (not open new position)! #OUT!: ${OrderType.MARKET}, Size: ${String(positionSize)}, Side: ${OrderSide.BUY}!`);
+          })
           .catch(error);
         return;
       }
 
       // Do not trade with long position if the trend is down
-      if (!useLongPosition) return;
+      if (!useLongPosition) {
+        log(`(#1) Do not trade with long position if the trend is down! #OUT!`);
+        return;
+      }
 
       // Do not add to the current position if the allocation is over the max allocation
-      if (allowPyramiding && hasLongPosition && !canAddToPosition) return;
+      if (allowPyramiding && hasLongPosition && !canAddToPosition){
+        log(`(#1) Do not add to the current position if the allocation is over the max allocation! #OUT!`);
+        return;
+      } 
 
       // Close the open orders of the last trade
       if (hasShortPosition && currentOpenOrders.length > 0) {
@@ -363,7 +376,7 @@ export class Bot {
                   type: OrderType.LIMIT,
                   symbol: pair,
                   timeInForce: 'GTC',
-                  price: price + '',
+                  price: String(price),
                   quantity: String(
                     decimalFloor(
                       quantity * quantityPercentage,
@@ -392,8 +405,8 @@ export class Bot {
                   side: OrderSide.SELL,
                   type: OrderType.STOP,
                   symbol: pair,
-                  stopPrice: stopLoss + '',
-                  price: stopLoss + '',
+                  stopPrice: String(stopLoss),
+                  price: String(stopLoss),
                   quantity: String(quantity),
                 })
                 .catch(error);
@@ -425,15 +438,24 @@ export class Bot {
             symbol: pair,
             quantity: String(positionSize),
           })
+          .then(() => {
+            log(' isTradingSessionActive || positionSize !== 0) && canTakeShortPosition && sellStrategy(candles) => Take the profit and not open a new position! #OUT! ');
+          })
           .catch(error);
         return;
       }
 
       // Do not trade with short position if the trend is up
-      if (!useShortPosition) return;
+      if (!useShortPosition){
+        log(`(#2) Do not trade with short position if the trend is up!`);
+        return;
+      } 
 
       // Do not add to the current position if the allocation is over the max allocation
-      if (allowPyramiding && hasShortPosition && !canAddToPosition) return;
+      if (allowPyramiding && hasShortPosition && !canAddToPosition) {
+        log(`(#2) Do not add to the current position if the allocation is over the max allocation!`);
+        return;
+      }
 
       // Close the open orders of the last trade
       if (hasLongPosition && currentOpenOrders.length > 0) {

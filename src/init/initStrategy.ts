@@ -1,14 +1,18 @@
 import { CandleChartInterval } from 'binance-api-node';
 import fs from 'fs';
 import path from 'path';
+import { log, error } from '../utils/log';
 
 export const loadStrategyConfig = (strategyConfigName: string) => {
+
+  log(`## Start Strategy: ${strategyConfigName} ##`);
   if (
     !fs.existsSync(
       path.resolve(process.cwd(), 'src/configs', `${strategyConfigName}.ts`)
     )
   ) {
     console.error(`The trading config "${strategyConfigName}" doesn't exists.`);
+    error(`The trading config "${strategyConfigName}" doesn't exists.`);
     process.exit(1);
     return;
   }

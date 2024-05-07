@@ -6,8 +6,7 @@ import { getPositionSizeByPercent } from '../strategies/riskManagement';
 
 const assets = [
   'ETH',
-  'BNB',
-  'SOL'
+  'BTC'
 ];
 
 export const hyperParameters: HyperParameters = {};
